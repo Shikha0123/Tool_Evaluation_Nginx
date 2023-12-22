@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment {
-        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/terraform_ansible_job_2/terraform_script/"
-        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/terraform_ansible_job_2/"
+        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/terraform/terraform_script/"
+        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/terraform/"
     }
 
     stages {
@@ -84,13 +84,13 @@ pipeline {
             steps {
                 script {
                     // Change ownership and permissions of the nginx.pem file
-                    sh "sudo chown jenkins:jenkins /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
-                    sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
+                    sh "sudo chown jenkins:jenkins /var/lib/jenkins/workspace/terraform/nginx.pem"
+                    sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform/nginx.pem"
 
                     // Debugging: Print the contents and permissions of the SSH key
-                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job_2/"
-                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
-                    sh "cat /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
+                    sh "ls -l /var/lib/jenkins/workspace/terraform/"
+                    sh "ls -l /var/lib/jenkins/workspace/terraform/nginx.pem"
+                    sh "cat /var/lib/jenkins/workspace/terraform/nginx.pem"
 
                     // Deploy Nginx using Ansible
                     dir("${env.INSTALL_WORKSPACE}") {
