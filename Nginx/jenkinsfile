@@ -82,7 +82,7 @@ pipeline {
             }
             steps {
                 script {
-                    // Change ownership and permissions of the ninja.pem file
+                    // Change ownership and permissions of the nginx.pem file
                     sh "sudo chown jenkins:jenkins /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
                     sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
 
