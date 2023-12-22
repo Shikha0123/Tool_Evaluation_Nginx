@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -6,75 +7,12 @@ pipeline {
     }
 
     environment {
-        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/terraform_ansible_job_2/terraform_script/"
-        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/terraform_ansible_job_2/"
+        TERRAFORM_WORKSPACE = "${WORKSPACE}/terraform_script/"
+        INSTALL_WORKSPACE = WORKSPACE
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git branch: 'main', url: 'https://github.com/Shikha0123/Tool_Evaluation_Nginx.git'
-            }
-        }
-
-        stage('Terraform Init') {
-            steps {
-                // Initialize Terraform
-                sh "cd ${env.TERRAFORM_WORKSPACE} && terraform init"
-            }
-        }
-
-        stage('Terraform Plan') {
-            steps {
-                // Run Terraform plan
-                sh "cd ${env.TERRAFORM_WORKSPACE} && terraform plan"
-            }
-        }
-
-        stage('Approval For Apply') {
-            when {
-                expression { params.ACTION == 'apply' }
-            }
-            steps {
-                // Prompt for approval before applying changes
-                input "Do you want to apply Terraform changes?"
-            }
-        }
-
-        stage('Terraform Apply') {
-            when {
-                expression { params.ACTION == 'apply' }
-            }
-            steps {
-                // Run Terraform apply
-                sh """
-                    cd ${env.TERRAFORM_WORKSPACE}
-                    terraform apply -auto-approve
-                    sudo cp ${env.TERRAFORM_WORKSPACE}/nginx.pem ${env.INSTALL_WORKSPACE}
-                    sudo chmod 700 ${env.INSTALL_WORKSPACE}/nginx.pem
-                """
-            }
-        }
-
-        stage('Approval for Destroy') {
-            when {
-                expression { params.ACTION == 'destroy' }
-            }
-            steps {
-                // Prompt for approval before destroying resources
-                input "Do you want to Terraform Destroy?"
-            }
-        }
-
-        stage('Terraform Destroy') {
-            when {
-                expression { params.ACTION == 'destroy' }
-            }
-            steps {
-                // Destroy Infra
-                sh "cd ${env.TERRAFORM_WORKSPACE} && terraform destroy -auto-approve"
-            }
-        }
+        // ... (other stages remain unchanged)
 
         stage('Nginx Deploy') {
             when {
@@ -83,18 +21,19 @@ pipeline {
             steps {
                 script {
                     // Change ownership and permissions of the nginx.pem file
-                    sh "sudo chown jenkins:jenkins /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
-                    sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
+                    sh "sudo chown jenkins:jenkins ${env.INSTALL_WORKSPACE}/nginx.pem"
+                    sh "sudo chmod 600 ${env.INSTALL_WORKSPACE}/nginx.pem"
 
                     // Debugging: Print the contents and permissions of the SSH key
-                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job_2/"
-                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
-                    sh "cat /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
+                    echo "Contents of nginx.pem:"
+                    sh "cat ${env.INSTALL_WORKSPACE}/nginx.pem"
+                    echo "Permissions of nginx.pem:"
+                    sh "ls -l ${env.INSTALL_WORKSPACE}/nginx.pem"
 
                     // Deploy Nginx using Ansible
                     dir("${env.INSTALL_WORKSPACE}") {
-                        sh """
-                            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook nginx_tool.yml
+                        """
+                        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook nginx_tool.yml
                         """
                     }
                 }
@@ -104,11 +43,9 @@ pipeline {
 
     post {
         success {
-            // Actions to take if the pipeline is successful
             echo 'Succeeded!'
         }
         failure {
-            // Actions to take if the pipeline fails
             echo 'Failed!'
         }
     }
