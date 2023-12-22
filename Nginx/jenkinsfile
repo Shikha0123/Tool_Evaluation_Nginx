@@ -85,7 +85,7 @@ pipeline {
                 script {
                     // Change ownership and permissions of the nginx.pem file
                     sh "sudo chown jenkins:jenkins /var/lib/jenkins/workspace/terraform/Nginx/nginx.pem"
-                    sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform/nginx.pem"
+                    sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform/Nginx/nginx.pem"
 
                     // Debugging: Print the contents and permissions of the SSH key
                     sh "ls -l /var/lib/jenkins/workspace/terraform/Nginx"
