@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment {
-        TERRAFORM_WORKSPACE = "${WORKSPACE}/terraform_script/"
-        INSTALL_WORKSPACE = WORKSPACE
+        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/terraform_ansible_job_2/terraform_script/"
+        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/terraform_ansible_job_2/"
     }
 
     stages {
