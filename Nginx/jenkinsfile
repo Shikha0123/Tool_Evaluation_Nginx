@@ -50,7 +50,7 @@ pipeline {
                 sh """
                     cd ${env.TERRAFORM_WORKSPACE}
                     terraform apply -auto-approve
-                    sudo cp ${env.TERRAFORM_WORKSPACE}/ninja.pem ${env.INSTALL_WORKSPACE}
+                    sudo cp ${env.TERRAFORM_WORKSPACE}/nginx.pem ${env.INSTALL_WORKSPACE}
                     sudo chmod 700 ${env.INSTALL_WORKSPACE}/nginx.pem
                 """
             }
@@ -83,13 +83,13 @@ pipeline {
             steps {
                 script {
                     // Change ownership and permissions of the ninja.pem file
-                    sh "sudo chown jenkins:jenkins /var/lib/jenkins/workspace/terraform_ansible_job/ninja.pem"
-                    sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform_ansible_job/nginx.pem"
+                    sh "sudo chown jenkins:jenkins /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
+                    sh "sudo chmod 600 /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
 
                     // Debugging: Print the contents and permissions of the SSH key
-                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job/"
-                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job/nginx.pem"
-                    sh "cat /var/lib/jenkins/workspace/terraform_ansible_job/nginx.pem"
+                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job_2/"
+                    sh "ls -l /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
+                    sh "cat /var/lib/jenkins/workspace/terraform_ansible_job_2/nginx.pem"
 
                     // Deploy Nginx using Ansible
                     dir("${env.INSTALL_WORKSPACE}") {
