@@ -1,5 +1,5 @@
 module "netwoking" {
-    source                      = "/home/shikha/terraform_script/Network"
+    source                      = "./Network"
     vpc_cidr                    = var.vpccidr
     vpc_name                    = var.vpcname
     tenancy                     = var.vpctenancy
@@ -24,7 +24,7 @@ module "netwoking" {
 }
 
 module "Security" {
-    source                          = "/home/shikha/terraform_script/Security"
+    source                          = "./Security"
     bastion_instance_name           = var.pub_instance_name
     private_instance_name           = var.pvt_instance_name
     private_instance_name_02        = var.private_instance_name_02  #For Second Tag
