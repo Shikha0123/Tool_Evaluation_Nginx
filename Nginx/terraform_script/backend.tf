@@ -2,7 +2,7 @@ terraform {
 
   backend "s3" {
 
-    bucket         = "shuklaji"
+    bucket         = "shuklaji0"
 
     key            = "Nginx/terraform.tfstate"
 
