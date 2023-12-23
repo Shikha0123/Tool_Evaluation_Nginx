@@ -115,7 +115,7 @@ variable "vpc_peering_cidr_block" {
 variable "peering_vpc_id" {
   description = "ID of the peering VPC"
   type        = string
-  default     = "vpc-093f1f4ca60f739df"
+  default     = "vpc-0504c7093d80ec4c0"
 }
 
 variable "auto_accept_peering" {
@@ -133,7 +133,7 @@ variable "vpc_peering_name" {
 variable "route_table_id" {
   description = "ID of the route table"
   type        = string
-  default     = "rtb-022f664fa430f5c32"
+  default     = "rtb-0e6b3f828d7196b20"
 }
 
 variable "instancetype" {
