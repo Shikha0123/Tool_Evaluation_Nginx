@@ -21,7 +21,7 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 // Initialize Terraform
-                sh "cd ${env.TERRAFORM_WORKSPACE} && terraform init -reconfigure"
+                sh "cd ${env.TERRAFORM_WORKSPACE} && terraform init"
             }
         }
 
