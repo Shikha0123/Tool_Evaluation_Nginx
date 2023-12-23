@@ -8,7 +8,7 @@ terraform {
 
     region         = "us-east-1"
 
-    dynamodb_table = "shikha_db"
+    dynamodb_table = "shikha"
 
     encrypt        = true
 
